@@ -54,7 +54,12 @@ var config = {
       }),
       extractCSS,
       extractLESS
-    ]
+    ],
+    resolve: {
+        alias: {
+          'create-reducer': path.resolve(__dirname, 'src/utils/create-reducer.js')
+        }
+    }
 }
 
 module.exports = config
