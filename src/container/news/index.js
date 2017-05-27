@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Layout } from 'antd'
 
 const { Content, Sider } = Layout
 
 export default class News extends Component {
-    propTypes = {
+    static propTypes = {
         params: PropTypes.object
     }
     render() {

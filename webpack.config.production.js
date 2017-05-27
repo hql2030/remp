@@ -1,11 +1,13 @@
 var path = require('path')
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var extractCSS = new ExtractTextPlugin('style/style-css.css')
+var extractLESS = new ExtractTextPlugin('style/style-less.css')
 
 var config = {
-    devtool: '#cheap-module-source-map',
     entry: {
-        index: ['webpack-hot-middleware/client', './src/index.js']
+        index: './src/index.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -16,21 +18,21 @@ var config = {
        rules: [
            {
                test: /\.css$/,
-               loader: 'style-loader!css-loader'	
+               use: extractCSS.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
            },
            {
                test: /\.less$/,
-               loader: 'style-loader!css-loader?module&localIdentName=[local]-[hash:base64:5]!less-loader'
-           },
-           {   
-               test: /\.js$/, 
-               enforce: 'pre', // 加载前先校验语法格式
-               loader: 'eslint-loader', 
-               exclude: /node_modules/
+               use: extractLESS.extract({
+                    fallback: "style-loader",
+                    use: ['css-loader', 'less-loader']
+               })
            },
            {
                test: /\.js$/,
-		           loader: "babel-loader?cacheDirectory",
+		           loader: "babel-loader",
                include: path.join(__dirname, 'src'),
                exclude: [
 				           path.resolve(__dirname, "node_modules")
@@ -43,20 +45,16 @@ var config = {
        ]
     },
     plugins:[
-      new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
           title: 'REMP',
           filename: 'index.html',
           template: './src/template.html',
           inject: 'body',
           hash: true
-      })
-    ],
-    resolve: {
-        alias: {
-          'create-reducer': path.resolve(__dirname, 'src/utils/create-reducer.js')
-        }
-    }
+      }),
+      extractCSS,
+      extractLESS
+    ]
 }
 
 module.exports = config

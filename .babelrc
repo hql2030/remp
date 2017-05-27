@@ -1,0 +1,12 @@
+{
+	presets: ['es2015', 'stage-0', 'react'],
+	plugins: [
+	   ["transform-runtime", {
+	      "polyfill": true,
+	      "regenerator": true
+	   }],
+	   "transform-decorators-legacy",
+	   ["import", { libraryName: "antd", style: 'css' }], // `style: string:css/boolean:true` 会加载 css/less 文件
+	   ["transform-class-properties", { "spec": true }]
+	]	
+}

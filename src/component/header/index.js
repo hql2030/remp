@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-
 import { Layout, Menu } from 'antd'
-import './index.less'
+import logoSrc from './images/default.jpg'
+
+import style from './index.less'
 
 const { Header } = Layout
 
@@ -15,7 +16,8 @@ export default class Head extends Component {
     }
     render() {
         return (
-            <Header className="header" style={{ height: '50px' }}>
+            <Header className={style.header}>
+                <img alt="logo" style={{ float: 'left' }} src={logoSrc} height={50} />
                 <Menu
                     selectedKeys={[this.state.current]}
                     mode="horizontal"

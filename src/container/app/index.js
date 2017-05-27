@@ -1,12 +1,20 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Layout } from 'antd'
 
 import Header from '../../component/header'
 import Footer from '../../component/footer'
 
+import modelSelector from './selector'
+import { containerActions } from './actions'
+
+@connect(modelSelector, containerActions)
 export default class App extends Component {
-    propTypes = {
-        children: PropTypes.object
+    static propTypes = {
+        children: PropTypes.object,
+        addCount: PropTypes.func,
+        appModel: PropTypes.object
     }
     constructor() {
         super()
@@ -15,7 +23,7 @@ export default class App extends Component {
         }
     }
     componentWillMount() {
-        /* global window b:true */
+        /* global window */
         const winHeight = window.innerHeight
         const conHeight = winHeight - 100
         this.setState({
@@ -23,12 +31,13 @@ export default class App extends Component {
         })
         switch (conHeight) {
             case '222':
-                console.log('sdfksj')
                 break
             default:
         }
+        this.props.addCount(5)
     }
     render() {
+        console.log(this.props.appModel.get('count'))
         return (
             <Layout>
                 <Header />
